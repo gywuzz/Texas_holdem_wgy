@@ -782,8 +782,9 @@
 
     renderCommunity();
     renderPlayers();
-    setStatusBar(`${streetNames[street]} 阶段，轮到你操作。`);
-    enableActionButtons(true);
+    qs('#btnCall').textContent = `看牌`;
+enableActionButtons(true);
+setStatusBar(`${streetNames[street]} 阶段，轮到你操作。`);
   }
 
   function revealRemainingBoard() {
