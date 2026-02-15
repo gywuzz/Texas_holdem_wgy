@@ -1027,7 +1027,6 @@ afterPlayerAction();
   }
 
   function afterPlayerAction() {
-  // 让所有 AI 行动一轮
   for (let i = 1; i < NUM_PLAYERS; i++) {
     if (!inHand[i] || chips[i] <= 0) continue;
     aiAction(i);
@@ -1037,7 +1036,7 @@ afterPlayerAction();
 
   if (alive.length === 1) {
     awardPot([alive[0]]);
-    const who = alive[0] === 0 ? "Kai" : `玩家${alive[0] + 1}`;
+    const who = alive[0] === 0 ? "你" : `玩家${alive[0] + 1}`;
     setStatusBar(`所有人弃牌，${who} 直接赢得底池。`);
     endHand();
     return;
@@ -1046,28 +1045,20 @@ afterPlayerAction();
   const toCallNow = currentBet - bets[0];
 
   if (inHand[0] && toCallNow > 0) {
-    // AI 加注了，玩家1需要再次行动，不进入下一街
     qs('#btnCall').textContent = `跟注 ${toCallNow}`;
     enableActionButtons(true);
     setStatusBar(`有玩家加注，需跟注 ${toCallNow}，请选择操作。`);
     return;
   }
 
-  qs('#btnCall').textContent = `看牌`;
-
   if (street === "river") {
     revealRemainingBoard();
     doShowdown();
     return;
-  } 
-else if (street === "turn") {
-  advanceStreet();
-} else if (street === "flop") {
-  advanceStreet();
-} else if (street === "preflop") {
+  }
+
   advanceStreet();
 }
-  }
 
   // ---------- 事件绑定 & 初始化 ----------
 
