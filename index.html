@@ -879,6 +879,7 @@
       statusElem.textContent = "状态：跟注";
       takeBet(0, toCall);
     }
+    renderPlayers();
     afterPlayerAction();
   }
 
@@ -896,6 +897,7 @@
     playerElements(0).status.textContent = "状态：加注";
     takeBet(0, toPay);
     currentBet = bets[0];
+    renderPlayers();
     afterPlayerAction();
   }
 
