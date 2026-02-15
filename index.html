@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>For_Kai - 德州扑克生日礼物</title>
+  <title>Texas Hold'em World</title>
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -876,7 +876,7 @@
     if (toCall <= 0) {
       statusElem.textContent = "状态：过牌";
     } else {
-      statusElem.textContent = "状态：跟注";
+      statusElem.textContent = `状态：跟注 ${toCall}`;
       takeBet(0, toCall);
     }
     renderPlayers();
@@ -1045,7 +1045,14 @@
 
     if (allCalled) break;
   }
-
+    
+const toCallNow = currentBet - bets[0];
+const callBtn = qs('#btnCall');
+if (toCallNow > 0) {
+  callBtn.textContent = `跟注 ${toCallNow}`;
+} else {
+  callBtn.textContent = `看牌`;
+}
   const alive = [];
   for (let i = 0; i < NUM_PLAYERS; i++) {
     if (inHand[i]) alive.push(i);
