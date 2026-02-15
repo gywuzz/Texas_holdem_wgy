@@ -1026,49 +1026,34 @@
   }
 
   function afterPlayerAction() {
-  const MAX_LOOPS = 8;
-  let loops = 0;
-
-  while (loops < MAX_LOOPS) {
-    loops++;
-    let actionTaken = false;
-
-    for (let i = 1; i < NUM_PLAYERS; i++) {
-      if (!inHand[i] || chips[i] <= 0) continue;
-      const toCall = currentBet - bets[i];
-      if (toCall > 0) {
-        aiAction(i);
-        actionTaken = true;
-      }
-    }
-
-    const allCalled = inHand.every((v, i) => {
-      if (!v || i === 0) return true;
-      return chips[i] === 0 || bets[i] >= currentBet;
-    });
-
-    if (allCalled) break;
+  // 让所有 AI 行动一轮
+  for (let i = 1; i < NUM_PLAYERS; i++) {
+    if (!inHand[i] || chips[i] <= 0) continue;
+    aiAction(i);
   }
-    
-const toCallNow = currentBet - bets[0];
-const callBtn = qs('#btnCall');
-if (toCallNow > 0) {
-  callBtn.textContent = `跟注 ${toCallNow}`;
-} else {
-  callBtn.textContent = `看牌`;
-}
-  const alive = [];
-  for (let i = 0; i < NUM_PLAYERS; i++) {
-    if (inHand[i]) alive.push(i);
-  }
+
+  const alive = inHand.map((v, i) => v ? i : -1).filter(i => i >= 0);
+
   if (alive.length === 1) {
-    const winner = alive[0];
-    awardPot([winner]);
-    const who = winner === 0 ? "你" : `玩家${winner + 1}`;
+    awardPot([alive[0]]);
+    const who = alive[0] === 0 ? "Kai" : `玩家${alive[0] + 1}`;
     setStatusBar(`所有人弃牌，${who} 直接赢得底池。`);
     endHand();
     return;
   }
+
+  const toCallNow = currentBet - bets[0];
+
+  if (inHand[0] && toCallNow > 0) {
+    // AI 加注了，玩家1需要再次行动，不进入下一街
+    qs('#btnCall').textContent = `跟注 ${toCallNow}`;
+    enableActionButtons(true);
+    setStatusBar(`有玩家加注，需跟注 ${toCallNow}，请选择操作。`);
+    return;
+  }
+
+  qs('#btnCall').textContent = `看牌`;
+
   if (street === "river") {
     revealRemainingBoard();
     doShowdown();
