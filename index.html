@@ -887,7 +887,7 @@
     const raiseAmount = 20;
     const targetBet = currentBet + raiseAmount;
     const alreadyPut = bets[0];
-    let toPay = targetBet - alreadyPut;
+    let toPay = targetBet - bets[0];
     if (chips[0] <= 0) return;
     if (toPay <= 0) return;
     if (toPay > chips[0]) {
@@ -895,7 +895,7 @@
     }
     playerElements(0).status.textContent = "状态：加注";
     takeBet(0, toPay);
-    currentBet = alreadyPut + toPay;
+    currentBet = bets[0];
     afterPlayerAction();
   }
 
@@ -980,9 +980,9 @@
         const baseBet = Math.max(BIG_BLIND, Math.floor(pot * 0.5));
         const betAmount = Math.min(baseBet, chips[idx]);
         if (betAmount > 0) {
-          currentBet = bets[idx] + betAmount;
           statusElem.textContent = `状态：主动下注 ${betAmount}（胜率 ${winProb.toFixed(2)}）`;
           takeBet(idx, betAmount);
+          currentBet = bets[idx];
         } else {
           statusElem.textContent = `状态：过牌（胜率 ${winProb.toFixed(2)}）`;
         }
@@ -1007,8 +1007,8 @@
           chips[idx]
         );
         if (extra > 0) {
-          currentBet = bets[idx] + extra;
           takeBet(idx, extra);
+          currentBet = bets[idx];
           statusElem.textContent = `状态：跟注并加注 ${extra}（胜率 ${winProb.toFixed(2)}）`;
         } else {
           statusElem.textContent = `状态：跟注（胜率 ${winProb.toFixed(2)}）`;
@@ -1020,30 +1020,49 @@
   }
 
   function afterPlayerAction() {
+  const MAX_LOOPS = 8;
+  let loops = 0;
+
+  while (loops < MAX_LOOPS) {
+    loops++;
+    let actionTaken = false;
+
     for (let i = 1; i < NUM_PLAYERS; i++) {
-      if (inHand[i] && chips[i] > 0) {
+      if (!inHand[i] || chips[i] <= 0) continue;
+      const toCall = currentBet - bets[i];
+      if (toCall > 0) {
         aiAction(i);
+        actionTaken = true;
       }
     }
-    const alive = [];
-    for (let i = 0; i < NUM_PLAYERS; i++) {
-      if (inHand[i]) alive.push(i);
-    }
-    if (alive.length === 1) {
-      const winner = alive[0];
-      awardPot([winner]);
-      const who = winner === 0 ? "Kai" : `玩家${winner + 1}`;
-      setStatusBar(`所有人弃牌，${who} 直接赢得底池。`);
-      endHand();
-      return;
-    }
-    if (street === "river") {
-      revealRemainingBoard();
-      doShowdown();
-    } else {
-      advanceStreet();
-    }
+
+    const allCalled = inHand.every((v, i) => {
+      if (!v || i === 0) return true;
+      return chips[i] === 0 || bets[i] >= currentBet;
+    });
+
+    if (allCalled) break;
   }
+
+  const alive = [];
+  for (let i = 0; i < NUM_PLAYERS; i++) {
+    if (inHand[i]) alive.push(i);
+  }
+  if (alive.length === 1) {
+    const winner = alive[0];
+    awardPot([winner]);
+    const who = winner === 0 ? "你" : `玩家${winner + 1}`;
+    setStatusBar(`所有人弃牌，${who} 直接赢得底池。`);
+    endHand();
+    return;
+  }
+  if (street === "river") {
+    revealRemainingBoard();
+    doShowdown();
+  } else {
+    advanceStreet();
+  }
+}
 
   // ---------- 事件绑定 & 初始化 ----------
 
