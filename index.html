@@ -878,6 +878,8 @@
     } else {
       statusElem.textContent = `状态：跟注 ${toCall}`;
       takeBet(0, toCall);
+      playerElements(0).bet.textContent = `本局累计下注：${totalBets[0]}`;
+      playerElements(0).chips.textContent = `筹码：${chips[0]}`;
     }
     renderPlayers();
     afterPlayerAction();
@@ -896,6 +898,8 @@
     }
     playerElements(0).status.textContent = "状态：加注";
     takeBet(0, toPay);
+    playerElements(0).bet.textContent = `本局累计下注：${totalBets[0]}`;
+    playerElements(0).chips.textContent = `筹码：${chips[0]}`;
     currentBet = bets[0];
     renderPlayers();
     afterPlayerAction();
