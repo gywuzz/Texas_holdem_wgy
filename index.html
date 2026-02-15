@@ -1057,9 +1057,14 @@ afterPlayerAction();
   if (street === "river") {
     revealRemainingBoard();
     doShowdown();
-  } else {
-    advanceStreet();
-  }
+    return;
+  } 
+else if (street === "turn") {
+  advanceStreet();
+} else if (street === "flop") {
+  advanceStreet();
+} else if (street === "preflop") {
+  advanceStreet();
 }
 
   // ---------- 事件绑定 & 初始化 ----------
