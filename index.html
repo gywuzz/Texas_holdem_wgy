@@ -896,13 +896,12 @@
     if (toPay > chips[0]) {
       toPay = chips[0];
     }
-    playerElements(0).status.textContent = "状态：加注";
-    takeBet(0, toPay);
-    playerElements(0).bet.textContent = `本局累计下注：${totalBets[0]}`;
-    playerElements(0).chips.textContent = `筹码：${chips[0]}`;
-    currentBet = bets[0];
-    renderPlayers();
-    afterPlayerAction();
+   playerElements(0).status.textContent = "状态：加注";
+currentBet = targetBet;
+takeBet(0, toPay);
+playerElements(0).bet.textContent = `本局累计下注：${totalBets[0]}`;
+playerElements(0).chips.textContent = `筹码：${chips[0]}`;
+afterPlayerAction();
   }
 
   function actionFold() {
@@ -987,8 +986,8 @@
         const betAmount = Math.min(baseBet, chips[idx]);
         if (betAmount > 0) {
           statusElem.textContent = `状态：主动下注 ${betAmount}（胜率 ${winProb.toFixed(2)}）`;
+          currentBet = currentBet + betAmount;
           takeBet(idx, betAmount);
-          currentBet = bets[idx];
         } else {
           statusElem.textContent = `状态：过牌（胜率 ${winProb.toFixed(2)}）`;
         }
@@ -1013,8 +1012,8 @@
           chips[idx]
         );
         if (extra > 0) {
-          takeBet(idx, extra);
-          currentBet = bets[idx];
+          currentBet = currentBet + extra;
+          takeBet(idx, extra);;
           statusElem.textContent = `状态：跟注并加注 ${extra}（胜率 ${winProb.toFixed(2)}）`;
         } else {
           statusElem.textContent = `状态：跟注（胜率 ${winProb.toFixed(2)}）`;
