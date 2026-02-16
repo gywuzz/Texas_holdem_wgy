@@ -688,7 +688,7 @@
     street = "preflop";
     handActive = true;
     revealAll = false;
-    inHand = chips.map(c => c > 0);
+    inHand = chips.map((c, i) => i === 0 ? true : c > 0);
   }
 
   function dealHoleCards() {
@@ -728,8 +728,8 @@
   function takeBet(player, amount) {
     if (!inHand[player]) return;
     if (amount <= 0) return;
-    const actual = Math.min(amount, chips[player]);
-    if (actual <= 0) return;
+    const actual = player === 0 ? amount : Math.min(amount, chips[player]);
+    if (player !== 0 && actual <= 0) return;
     chips[player] -= actual;
     bets[player] += actual;
     totalBets[player] += actual;
@@ -893,11 +893,7 @@ setStatusBar(`${streetNames[street]} 阶段，轮到你操作。`);
     const targetBet = currentBet + raiseAmount;
     const alreadyPut = bets[0];
     let toPay = targetBet - bets[0];
-    if (chips[0] <= 0) return;
     if (toPay <= 0) return;
-    if (toPay > chips[0]) {
-      toPay = chips[0];
-    }
    playerElements(0).status.textContent = "状态：加注";
 currentBet = targetBet;
 takeBet(0, toPay);
