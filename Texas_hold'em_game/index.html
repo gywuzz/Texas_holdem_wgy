@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Texas Hold'em World</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to the world of Texas Hold'em!</h1>
+
+    <div class="disclaimer">
+      本网站游戏仅供娱乐与规则技巧学习，不含任何真实货币、盈利或赌博性质。
+      &nbsp;|&nbsp; For entertainment & skill training only — no real money, no gambling.
+    </div>
+
+    <div class="top-bar">
+      <span id="streetLabel">阶段：-</span>
+      <span id="potLabel">底池：0</span>
+      <button id="newRoundBtn">点击开始</button>
+    </div>
+
+    <div class="board">
+      <div class="board-title">公共牌 Community Cards</div>
+      <div class="cards" id="communityCards"></div>
+    </div>
+
+    <div class="players-row-top">
+      <div class="player" data-player-index="1">
+        <div class="player-header" data-role="title">玩家 2</div>
+        <div class="player-cards" data-role="cards"></div>
+        <div class="info-line chips" data-role="chips">筹码: 1000</div>
+        <div class="info-line bet" data-role="bet">本局累计下注：0</div>
+        <div class="info-line status" data-role="status">状态: 等待</div>
+        <div class="info-line handType" data-role="handType">牌型：-</div>
+      </div>
+      <div class="player" data-player-index="2">
+        <div class="player-header" data-role="title">玩家 3</div>
+        <div class="player-cards" data-role="cards"></div>
+        <div class="info-line chips" data-role="chips">筹码: 1000</div>
+        <div class="info-line bet" data-role="bet">本局累计下注：0</div>
+        <div class="info-line status" data-role="status">状态: 等待</div>
+        <div class="info-line handType" data-role="handType">牌型：-</div>
+      </div>
+      <div class="player" data-player-index="3">
+        <div class="player-header" data-role="title">玩家 4</div>
+        <div class="player-cards" data-role="cards"></div>
+        <div class="info-line chips" data-role="chips">筹码: 1000</div>
+        <div class="info-line bet" data-role="bet">本局累计下注：0</div>
+        <div class="info-line status" data-role="status">状态：等待</div>
+        <div class="info-line handType" data-role="handType">牌型：-</div>
+      </div>
+    </div>
+
+    <div class="players-row-bottom">
+      <div class="player me" data-player-index="0">
+        <div class="player-header" data-role="title">玩家 1（Kai）</div>
+        <div class="player-cards" data-role="cards"></div>
+        <div class="info-line chips" data-role="chips">筹码: 1000</div>
+        <div class="info-line bet" data-role="bet">本局累计下注：0</div>
+        <div class="info-line status" data-role="status">状态：等待</div>
+        <div class="info-line handType" data-role="handType">牌型：-</div>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <button id="btnCall">跟注 / 看牌</button>
+      <button id="btnRaise">加注 (+20)</button>
+      <button id="btnFold">弃牌</button>
+    </div>
+
+    <div class="status-bar" id="statusBar">
+      点击「开始新局」开始游戏，你控制玩家 1。
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    &copy; 2025 Guanyu Wu. All rights reserved.
+  </footer>
+
+  <!-- 按依赖顺序加载 -->
+  <script src="js/game/deck.js"></script>
+  <script src="js/game/evaluator.js"></script>
+  <script src="js/game/state.js"></script>
+  <script src="js/ai/ai-player.js"></script>
+  <script src="js/ui/renderer.js"></script>
+  <script src="js/ui/actions.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
