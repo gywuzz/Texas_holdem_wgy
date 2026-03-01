@@ -737,7 +737,7 @@
     if (chips[player] === 0) {
       playerElements(player).status.textContent = "Status：All in";
     }
-    playerElements(player).bet.textContent = `Totalbet：${totalBets[player]}`;
+    playerElements(player).bet.textContent = `Total bet：${totalBets[player]}`;
     playerElements(player).chips.textContent = `Chips：${chips[player]}`;
     qs('#potLabel').textContent = `Pot：${pot}`;
   }
@@ -880,7 +880,7 @@ setStatusBar(`${streetNames[street]}, your turn`);
     } else {
       statusElem.textContent = `Status: Call ${toCall}`;
       takeBet(0, toCall);
-      playerElements(0).bet.textContent = `Totalbets: ${totalBets[0]}`;
+      playerElements(0).bet.textContent = `Total bet: ${totalBets[0]}`;
       playerElements(0).chips.textContent = `Chips: ${chips[0]}`;
     }
     renderPlayers();
@@ -897,7 +897,7 @@ setStatusBar(`${streetNames[street]}, your turn`);
    playerElements(0).status.textContent = "Status: Raise";
 currentBet = targetBet;
 takeBet(0, toPay);
-playerElements(0).bet.textContent = `Totalbets: ${totalBets[0]}`;
+playerElements(0).bet.textContent = `Total bet: ${totalBets[0]}`;
 playerElements(0).chips.textContent = `Chips: ${chips[0]}`;
 afterPlayerAction();
   }
