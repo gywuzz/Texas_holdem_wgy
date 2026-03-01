@@ -911,7 +911,7 @@ afterPlayerAction();
     doShowdown();
   }
 
-  function estimateWinProbability(idx, numOpponents, numSimulations = 500) {
+  function estimateWinProbability(idx, numOpponents, numSimulations = 1000) {
     const heroHole = playersCards[idx];
     const board = communityCards;
     const known = [...heroHole, ...board];
@@ -976,10 +976,10 @@ afterPlayerAction();
       return;
     }
 
-    const winProb = estimateWinProbability(idx, opponents, 80);
+    const winProb = estimateWinProbability(idx, opponents, 1000);
 
     if (toCall <= 0) {
-      if (winProb > 0.7 && chips[idx] > 0) {
+      if (winProb > 0.75 && chips[idx] > 0) {
         const baseBet = Math.max(BIG_BLIND, Math.floor(pot * 0.5));
         const betAmount = Math.min(baseBet, chips[idx]);
         if (betAmount > 0) {
