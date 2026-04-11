@@ -362,6 +362,7 @@
   <div class="top-bar">
     <span id="streetLabel">Street：-</span>
     <span id="potLabel">Pot：0</span>
+    <button id="resetChipsBtn">Reset</button>
     <button id="newRoundBtn">Run</button>
   </div>
 
@@ -1056,12 +1057,19 @@ afterPlayerAction();
   advanceStreet();
 }
 
+  function resetChips() {
+      chips = new Array(NUM_PLAYERS).fill(1000);
+      renderPlayers();
+      setStatusBar("All players' chips have been reset to 1000.");
+    }
+  
   // ---------- 事件绑定 & 初始化 ----------
 
-  qs('#newRoundBtn').addEventListener('click', newRound);
-  qs('#btnCall').addEventListener('click', actionCallOrCheck);
-  qs('#btnRaise').addEventListener('click', actionRaise);
-  qs('#btnFold').addEventListener('click', actionFold);
+    qs('#resetChipsBtn').addEventListener('click', resetChips);
+    qs('#newRoundBtn').addEventListener('click', newRound);
+    qs('#btnCall').addEventListener('click', actionCallOrCheck);
+    qs('#btnRaise').addEventListener('click', actionRaise);
+    qs('#btnFold').addEventListener('click', actionFold);
 
   function initEmptyUI() {
     communityCards = [];
